@@ -5,7 +5,7 @@ import { Ruler } from "./Ruler";
 import { TrackList } from "./TrackList";
 import { KeyframeList } from "./KeyframeList";
 import { PlayControls } from "./PlayControls";
-import { ScrollSyncContext } from "./ScrollSync";
+import { ScrollSyncProvider } from "./ScrollSync";
 
 export const Timeline = () => {
   // FIXME: performance concerned
@@ -18,7 +18,15 @@ export const Timeline = () => {
   const trackListRef = useRef<HTMLDivElement>(null);
 
   return (
-    <ScrollSyncContext.Provider value={{ rulerRef, keyframeListRef, trackListRef, scrollLeft, setScrollLeft }}>
+    <ScrollSyncProvider
+      value={{
+        rulerRef,
+        keyframeListRef,
+        trackListRef,
+        scrollLeft,
+        setScrollLeft,
+      }}
+    >
       <div
         className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
     bg-gray-800 border-t-2 border-solid border-gray-700"
@@ -30,6 +38,6 @@ export const Timeline = () => {
         <KeyframeList duration={duration} />
         <Playhead time={time} />
       </div>
-    </ScrollSyncContext.Provider>
+    </ScrollSyncProvider>
   );
 };
