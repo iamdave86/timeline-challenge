@@ -18,7 +18,7 @@ export const TrackList = () => {
       ref={trackListRef}
       className="grid grid-flow-row auto-rows-[40px]
       border-r border-solid border-r-gray-700 
-      overflow-auto"
+      overflow-auto z-[1] bg-inherit"
       data-testid="track-list"
       onScroll={handleScroll}
     >

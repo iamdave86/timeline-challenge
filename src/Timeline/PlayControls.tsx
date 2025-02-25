@@ -47,8 +47,7 @@ export const PlayControls = ({ time, setTime, duration, setDuration }: PlayContr
 
   return (
     <div
-      className="flex items-center justify-between border-b border-r border-solid border-gray-700 
-px-2"
+      className="flex items-center justify-between border-b border-r border-solid border-gray-700 px-2 z-[1] bg-inherit"
       data-testid="play-controls"
     >
       <fieldset className="flex gap-1">

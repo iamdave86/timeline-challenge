@@ -6,7 +6,7 @@ interface KeyframeListProps {
 }
 
 export const KeyframeList = ({ duration }: KeyframeListProps) => {
-  const { rulerRef, keyframeListRef, trackListRef } = useScrollSync();
+  const { rulerRef, keyframeListRef, trackListRef, setScrollLeft } = useScrollSync();
 
   const handleScroll = () => {
     // Sync the scroll position of the ruler and keyframe list
@@ -15,6 +15,9 @@ export const KeyframeList = ({ duration }: KeyframeListProps) => {
       const scrollLeft = keyframeListRef.current.scrollLeft;
       // set the scroll position of the ruler
       rulerRef.current.scrollLeft = scrollLeft;
+
+      // Update the scroll position state, used for Playhead
+      setScrollLeft(scrollLeft);
     }
 
     // Sync the scroll position of the keyframe list and track list
