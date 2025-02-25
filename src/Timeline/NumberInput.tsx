@@ -25,6 +25,7 @@ export const NumberInput = ({
   defaultValue,
   onChange,
 }: NumberInputProps) => {
+  // using this state for storing the input value internally until the user decides to confirm the change
   const [inputValue, setInputValue] = useState<string>(value?.toString() || defaultValue?.toString() || "0");
   const inputRef = useRef<HTMLInputElement>(null);
   const isEscapingRef = useRef(false);
@@ -35,6 +36,7 @@ export const NumberInput = ({
     setInputValue(value.toString());
   }, [value]);
 
+  // this function is used to select the input text when the user clicks on the input or manually triggering it
   const triggerSelectInput = () => {
     requestAnimationFrame(() => inputRef.current?.select());
   };
@@ -44,8 +46,10 @@ export const NumberInput = ({
     if (isNaN(val)) {
       val = Number(value);
     }
+    // claculate the difference between the current value and the new value
     const valDiff = Math.abs(val - Number(inputValue));
 
+    // if the difference is equal to the step (meaning we used the native arrow buttons), then update the value
     if (valDiff === step) {
       onChange(val);
       triggerSelectInput();
@@ -59,6 +63,7 @@ export const NumberInput = ({
   };
 
   const handleBlur = () => {
+    // if the user is escaping the input, then don't update the value
     if (isEscapingRef.current) {
       isEscapingRef.current = false;
       return;
@@ -71,9 +76,11 @@ export const NumberInput = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      // no need to trigger the native onChange event
       e.preventDefault();
 
       const stepValue = e.key === "ArrowUp" ? step : -step;
+      // calculate the new value based on the direction (up or down), and is multiples of step value
       let newValue = Number(inputValue) + Number(stepValue);
       if (newValue < inputMin) {
         newValue = inputMin;
@@ -91,6 +98,7 @@ export const NumberInput = ({
       setInputValue(value.toString());
       onChange(Number(value));
 
+      // saving the escape event into a ref
       isEscapingRef.current = true;
       inputRef.current?.blur();
     }

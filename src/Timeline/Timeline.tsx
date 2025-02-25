@@ -7,7 +7,8 @@ import { PlayControls } from "./PlayControls";
 
 export const Timeline = () => {
   // FIXME: performance concerned
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(2000);
 
   return (
     <div
@@ -15,7 +16,7 @@ export const Timeline = () => {
     bg-gray-800 border-t-2 border-solid border-gray-700"
       data-testid="timeline"
     >
-      <PlayControls time={time} setTime={setTime} />
+      <PlayControls time={time} setTime={setTime} duration={duration} setDuration={setDuration} />
       <Ruler />
       <TrackList />
       <KeyframeList />
