@@ -1,3 +1,5 @@
+import { useScrollSync } from "./ScrollSync";
+
 type RulerProps = {
   duration: number;
 };
@@ -5,13 +7,26 @@ type RulerProps = {
 // duration is the total width of the ruler: 1ms = 1px
 export const Ruler = ({ duration }: RulerProps) => {
   // TODO: implement mousedown and mousemove to update time and Playhead position
+  const { rulerRef, keyframeListRef } = useScrollSync();
+
+  const handleScroll = () => {
+    // Sync the scroll position of the ruler and keyframe list
+    if (rulerRef.current && keyframeListRef.current) {
+      // get the scroll position of the ruler
+      const scrollLeft = rulerRef.current.scrollLeft;
+      // set the scroll position of the keyframe list
+      keyframeListRef.current.scrollLeft = scrollLeft;
+    }
+  };
 
   return (
     <div
+      ref={rulerRef}
       className="px-4 py-2 min-w-0 
       border-b border-solid border-gray-700 
       overflow-x-auto overflow-y-hidden"
       data-testid="ruler"
+      onScroll={handleScroll}
     >
       <div className="h-6 rounded-md bg-white/25" data-testid="ruler-bar" style={{ width: `${duration}px` }}></div>
     </div>

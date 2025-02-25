@@ -1,12 +1,26 @@
+import { useScrollSync } from "./ScrollSync";
+
 export const TrackList = () => {
-  // TODO: implement scroll sync with `KeyframeList`
+  const { keyframeListRef, trackListRef } = useScrollSync();
+
+  const handleScroll = () => {
+    // Sync the scroll position of the keyframe list and track list
+    if (trackListRef.current && keyframeListRef.current) {
+      // get the scroll position of the track list
+      const scrollTop = trackListRef.current.scrollTop;
+      // set the scroll position of the keyframe list
+      keyframeListRef.current.scrollTop = scrollTop;
+    }
+  };
 
   return (
     <div
+      ref={trackListRef}
       className="grid grid-flow-row auto-rows-[40px]
       border-r border-solid border-r-gray-700 
       overflow-auto"
       data-testid="track-list"
+      onScroll={handleScroll}
     >
       <div className="p-2">
         <div>Track A</div>

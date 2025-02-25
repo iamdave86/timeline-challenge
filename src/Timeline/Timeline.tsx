@@ -1,26 +1,34 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+
 import { Playhead } from "./Playhead";
 import { Ruler } from "./Ruler";
 import { TrackList } from "./TrackList";
 import { KeyframeList } from "./KeyframeList";
 import { PlayControls } from "./PlayControls";
+import { ScrollSyncContext } from "./ScrollSync";
 
 export const Timeline = () => {
   // FIXME: performance concerned
   const [time, setTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(2000);
 
+  const rulerRef = useRef<HTMLDivElement>(null);
+  const keyframeListRef = useRef<HTMLDivElement>(null);
+  const trackListRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div
-      className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
+    <ScrollSyncContext.Provider value={{ rulerRef, keyframeListRef, trackListRef }}>
+      <div
+        className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
     bg-gray-800 border-t-2 border-solid border-gray-700"
-      data-testid="timeline"
-    >
-      <PlayControls time={time} setTime={setTime} duration={duration} setDuration={setDuration} />
-      <Ruler duration={duration} />
-      <TrackList />
-      <KeyframeList duration={duration} />
-      <Playhead time={time} />
-    </div>
+        data-testid="timeline"
+      >
+        <PlayControls time={time} setTime={setTime} duration={duration} setDuration={setDuration} />
+        <Ruler duration={duration} />
+        <TrackList />
+        <KeyframeList duration={duration} />
+        <Playhead time={time} />
+      </div>
+    </ScrollSyncContext.Provider>
   );
 };
