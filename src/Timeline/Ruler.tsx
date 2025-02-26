@@ -10,7 +10,7 @@ type RulerProps = {
 
 // Duration is the total width of the ruler: 1ms = 1px
 export const Ruler = ({ duration, setTime }: RulerProps) => {
-  const { rulerRef, keyframeListRef } = useScrollSync();
+  const { rulerRef, handleRulerScroll } = useScrollSync();
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   // Add or remove event listeners based on the dragging state
@@ -51,16 +51,6 @@ export const Ruler = ({ duration, setTime }: RulerProps) => {
     setTime(roundedTime);
   };
 
-  const handleScroll = () => {
-    // Sync the scroll position of the ruler and keyframe list
-    if (rulerRef.current && keyframeListRef.current) {
-      // get the scroll position of the ruler
-      const scrollLeft = rulerRef.current.scrollLeft;
-      // set the scroll position of the keyframe list
-      keyframeListRef.current.scrollLeft = scrollLeft;
-    }
-  };
-
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     updateTimeFromMouseEvent(event);
@@ -82,7 +72,7 @@ export const Ruler = ({ duration, setTime }: RulerProps) => {
       border-b border-solid border-gray-700 
       overflow-x-auto overflow-y-hidden"
       data-testid="ruler"
-      onScroll={handleScroll}
+      onScroll={handleRulerScroll}
       onMouseDown={handleMouseDown}
     >
       <div className="h-6 rounded-md bg-white/25" data-testid="ruler-bar" style={{ width: `${duration}px` }}></div>

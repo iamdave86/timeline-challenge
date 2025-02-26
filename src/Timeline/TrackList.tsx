@@ -1,17 +1,7 @@
 import { useScrollSync } from "./ScrollSync";
 
 export const TrackList = () => {
-  const { keyframeListRef, trackListRef } = useScrollSync();
-
-  const handleScroll = () => {
-    // Sync the scroll position of the keyframe list and track list
-    if (trackListRef.current && keyframeListRef.current) {
-      // get the scroll position of the track list
-      const scrollTop = trackListRef.current.scrollTop;
-      // set the scroll position of the keyframe list
-      keyframeListRef.current.scrollTop = scrollTop;
-    }
-  };
+  const { trackListRef, handleTrackListScroll } = useScrollSync();
 
   return (
     <div
@@ -20,7 +10,7 @@ export const TrackList = () => {
       border-r border-solid border-r-gray-700 
       overflow-auto z-[1] bg-inherit"
       data-testid="track-list"
-      onScroll={handleScroll}
+      onScroll={handleTrackListScroll}
     >
       <div className="p-2">
         <div>Track A</div>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { Playhead } from "./Playhead";
 import { Ruler } from "./Ruler";
@@ -11,22 +11,9 @@ export const Timeline = () => {
   // FIXME: performance concerned
   const [time, setTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(2000);
-  const [scrollLeft, setScrollLeft] = useState<number>(0);
-
-  const rulerRef = useRef<HTMLDivElement>(null);
-  const keyframeListRef = useRef<HTMLDivElement>(null);
-  const trackListRef = useRef<HTMLDivElement>(null);
 
   return (
-    <ScrollSyncProvider
-      value={{
-        rulerRef,
-        keyframeListRef,
-        trackListRef,
-        scrollLeft,
-        setScrollLeft,
-      }}
-    >
+    <ScrollSyncProvider>
       <div
         className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
     bg-gray-800 border-t-2 border-solid border-gray-700"
