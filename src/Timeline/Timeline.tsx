@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Playhead } from "./Playhead";
 import { Ruler } from "./Ruler";
@@ -8,9 +8,16 @@ import { PlayControls } from "./PlayControls";
 import { ScrollSyncProvider } from "./ScrollSync";
 
 export const Timeline = () => {
-  // FIXME: performance concerned
   const [time, setTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(2000);
+
+  // Memoize callbacks to prevent unnecessary recreations
+  const handleSetTime = useCallback((newTime: number) => {
+    setTime(newTime);
+  }, []);
+  const handleSetDuration = useCallback((newDuration: number) => {
+    setDuration(newDuration);
+  }, []);
 
   return (
     <ScrollSyncProvider>
@@ -19,8 +26,8 @@ export const Timeline = () => {
     bg-gray-800 border-t-2 border-solid border-gray-700"
         data-testid="timeline"
       >
-        <PlayControls time={time} setTime={setTime} duration={duration} setDuration={setDuration} />
-        <Ruler duration={duration} setTime={setTime} />
+        <PlayControls time={time} setTime={handleSetTime} duration={duration} setDuration={handleSetDuration} />
+        <Ruler duration={duration} setTime={handleSetTime} />
         <TrackList />
         <KeyframeList duration={duration} />
         <Playhead time={time} />

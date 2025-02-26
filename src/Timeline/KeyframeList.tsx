@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useScrollSync } from "./ScrollSync";
 import { Segment } from "./Segment";
 
@@ -8,6 +10,14 @@ interface KeyframeListProps {
 export const KeyframeList = ({ duration }: KeyframeListProps) => {
   const { keyframeListRef, handleKeyframeListScroll } = useScrollSync();
 
+  const segments = useMemo(
+    () =>
+      Array(10)
+        .fill(null)
+        .map((_, index) => <Segment key={index} duration={duration} />),
+    [duration],
+  );
+
   return (
     <div
       ref={keyframeListRef}
@@ -15,16 +25,7 @@ export const KeyframeList = ({ duration }: KeyframeListProps) => {
       data-testid="keyframe-list"
       onScroll={handleKeyframeListScroll}
     >
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
-      <Segment duration={duration} />
+      {segments}
     </div>
   );
 };
