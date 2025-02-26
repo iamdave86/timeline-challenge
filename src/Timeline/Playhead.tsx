@@ -13,15 +13,25 @@ export const Playhead = ({ time }: PlayheadProps) => {
   // scrollLeft is the scroll position of the ruler and keyframe list
   const { scrollLeft } = useScrollSync();
 
-  const isHidden = useMemo(() => {
-    // position is the position of the playhead relative to the scroll position
-    const position = time - scrollLeft;
+  // position is the position of the playhead relative to the scroll position
+  const position = useMemo(() => time - scrollLeft, [time, scrollLeft]);
 
-    // Hide the playhead if it's outside the visible area
-    // left side: position < -(PADDING + HEAD_WIDTH)
-    // right side: position > window.innerWidth - (LEFT_OFFSET - HEAD_WIDTH)
-    return position < -(PADDING + HEAD_WIDTH) || position > window.innerWidth - (LEFT_OFFSET - HEAD_WIDTH);
-  }, [time, scrollLeft]);
+  // Hide the playhead if it's outside the visible area
+  // left side: position < -(PADDING + HEAD_WIDTH)
+  // right side: position > window.innerWidth - (LEFT_OFFSET - HEAD_WIDTH)
+  const isHidden = useMemo(
+    () => position < -(PADDING + HEAD_WIDTH) || position > window.innerWidth - (LEFT_OFFSET - HEAD_WIDTH),
+    [position],
+  );
+
+  // Calculate the position of the playhead
+  const playheadStyle = useMemo(
+    () => ({
+      transform: `translateX(calc(${position}px - 50%))`,
+      left: `${LEFT_OFFSET}px`,
+    }),
+    [position],
+  );
 
   return (
     <div
@@ -29,7 +39,7 @@ export const Playhead = ({ time }: PlayheadProps) => {
         isHidden ? "hidden" : ""
       }`}
       data-testid="playhead"
-      style={{ transform: `translateX(calc(${time - scrollLeft}px - 50%))` }}
+      style={playheadStyle}
     >
       <div className="absolute border-solid border-[5px] border-transparent border-t-yellow-600 -translate-x-1.5" />
     </div>

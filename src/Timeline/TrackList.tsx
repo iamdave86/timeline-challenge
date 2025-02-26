@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useScrollSync } from "./ScrollSync";
 
 export const TRACK_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -15,7 +17,7 @@ const TrackItem = ({ letter }: TrackItemProps) => (
 export const TrackList = () => {
   const { trackListRef, handleTrackListScroll } = useScrollSync();
 
-  const tracks = TRACK_LETTERS.map((letter) => <TrackItem key={letter} letter={letter} />);
+  const tracks = useMemo(() => TRACK_LETTERS.map((letter) => <TrackItem key={letter} letter={letter} />), []);
 
   return (
     <div
