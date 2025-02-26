@@ -1,7 +1,21 @@
 import { useScrollSync } from "./ScrollSync";
 
+export const TRACK_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+interface TrackItemProps {
+  letter: string;
+}
+
+const TrackItem = ({ letter }: TrackItemProps) => (
+  <div className="p-2">
+    <div>Track {letter}</div>
+  </div>
+);
+
 export const TrackList = () => {
   const { trackListRef, handleTrackListScroll } = useScrollSync();
+
+  const tracks = TRACK_LETTERS.map((letter) => <TrackItem key={letter} letter={letter} />);
 
   return (
     <div
@@ -12,36 +26,7 @@ export const TrackList = () => {
       data-testid="track-list"
       onScroll={handleTrackListScroll}
     >
-      <div className="p-2">
-        <div>Track A</div>
-      </div>
-      <div className="p-2">
-        <div>Track B</div>
-      </div>
-      <div className="p-2">
-        <div>Track C</div>
-      </div>
-      <div className="p-2">
-        <div>Track D</div>
-      </div>
-      <div className="p-2">
-        <div>Track E</div>
-      </div>
-      <div className="p-2">
-        <div>Track F </div>
-      </div>
-      <div className="p-2">
-        <div>Track G</div>
-      </div>
-      <div className="p-2">
-        <div>Track H</div>
-      </div>
-      <div className="p-2">
-        <div>Track I </div>
-      </div>
-      <div className="p-2">
-        <div>Track J</div>
-      </div>
+      {tracks}
     </div>
   );
 };
