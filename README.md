@@ -122,3 +122,5 @@ Good luck with the Phase Timeline Challenge!
 ## Running tests
 
 `yarn test`
+
+Press `a` to run all tests.
